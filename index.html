@@ -1,263 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Memory</title>
-  <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-      background: #f7f0e6;
-      color: #4a2a1d;
-    }
-
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at top, #fff9ef 0%, #f4dec4 30%, #e7d0a2 100%);
-    }
-
-    .app {
-      width: min(100vw, 820px);
-      height: min(100vh, 900px);
-      position: relative;
-      overflow: hidden;
-      border-radius: 18px;
-      box-shadow: 0 28px 60px rgba(86, 49, 19, 0.18);
-      background: linear-gradient(180deg, #fffaf4 0%, #f9f1df 100%);
-      border: 3px solid rgba(120, 75, 35, 0.18);
-    }
-
-    .screen {
-      position: absolute;
-      inset: 0;
-      display: none;
-      padding: 30px 28px 22px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08));
-    }
-
-    .screen.active {
-      display: block;
-      animation: fadeIn 0.6s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .page-tag {
-      position: absolute;
-      right: 24px;
-      top: 18px;
-      background: rgba(138, 84, 47, 0.12);
-      color: #7a4c2d;
-      border: 1px solid rgba(122, 76, 45, 0.15);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      font-weight: 700;
-    }
-
-    .photo-wrap {
-      width: 100%;
-      height: calc(100% - 72px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 34px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.28);
-      border: 1px solid rgba(116, 82, 61, 0.12);
-      box-shadow: inset 0 0 18px rgba(255,255,255,0.22);
-      overflow: hidden;
-    }
-
-    .photo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      background: #f7efe4;
-    }
-
-    .title {
-      position: absolute;
-      left: 28px;
-      top: 20px;
-      font-size: 20px;
-      font-weight: 700;
-      color: #7a4c2d;
-      letter-spacing: 0.08em;
-    }
-
-    .nav {
-      position: absolute;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.6);
-      border: 1px solid rgba(120, 84, 52, 0.12);
-      backdrop-filter: blur(8px);
-    }
-
-    .nav button {
-      appearance: none;
-      border: none;
-      background: #bb825c;
-      color: white;
-      padding: 9px 18px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(187,130,92,0.28);
-      transition: transform 0.18s ease, opacity 0.18s ease;
-    }
-
-    .nav button:hover {
-      transform: translateY(-1px);
-    }
-
-    .nav button:active {
-      transform: translateY(0);
-    }
-
-    .nav button.secondary {
-      background: #dfb788;
-      color: #5d3a28;
-    }
-
-    .nav .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(122, 76, 45, 0.25);
-    }
-
-    .nav .dot.active {
-      background: #a35d3a;
-      box-shadow: 0 0 0 5px rgba(163, 93, 58, 0.12);
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7e9c8">
+  <meta name="description" content="一封写给爸爸的生日来信。">
+  <title>爸爸，生日快乐</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <section class="screen active">
-      <div class="title">Memory 1</div>
-      <div class="page-tag">Page 1 / 4</div>
-      <div class="photo-wrap">
-        <img class="default-photo" alt="Memory 1" />
+  <main class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="#page-1" data-copy="brand">A LETTER FOR DAD</a>
+      <div class="progress"><span id="page-number">01</span><i><b id="progress-fill"></b></i><span>12</span></div>
+    </header>
+
+    <section class="screen cover active" data-page="1">
+      <div class="grid-wash"></div>
+      <div class="cover-copy">
+        <p class="eyebrow" data-copy="coverEyebrow"></p>
+        <h1><span data-copy="coverTitle"></span><em data-copy="coverEm"></em></h1>
+        <p class="body-copy" data-copy="coverBody"></p>
+        <div class="password-card">
+          <label for="birthday-password" data-copy="passwordLabel"></label>
+          <input id="birthday-password" type="password" autocomplete="off" placeholder="•••••••••••">
+          <button id="unlock-button" class="button button-sun" type="button" data-copy="passwordButton"></button>
+          <small id="password-status" aria-live="polite" data-copy="passwordHint"></small>
+        </div>
+        <audio id="father-audio" src="music/fuqin.mp3" preload="none"></audio>
       </div>
+      <div class="cover-art">
+        <div class="sun-stamp">OCT<br><b>26</b><br>2026</div>
+        
+        <div class="calendar-mini">
+          <div class="calendar-heading"><div class="portrait-frame"><img src="photos/dad-cover.jpg" alt="爸爸的简笔线稿"></div><div class="calendar-heading-text"><span>2026</span><b>OCTOBER</b><i>农历九月十七</i></div></div>
+          <div class="calendar-grid">
+            <small>日</small><small>一</small><small>二</small><small>三</small><small>四</small><small>五</small><small>六</small>
+            <i></i><i></i><i></i><i></i><span>1</span><span>2</span><span>3</span>
+            <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span>
+            <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+            <span>25</span><b class="circled-day">26</b><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+          </div>
+          <p data-copy="calendarCaption"></p>
+        </div>
+        <span class="cover-spark spark-one">✦</span><span class="cover-spark spark-two">✧</span>
+      </div>
+      <footer class="cover-footer"><span data-copy="coverFooter"></span><span>01 / 12</span></footer>
     </section>
 
-    <section class="screen">
-      <div class="title">Memory 2</div>
-      <div class="page-tag">Page 2 / 4</div>
-      <div class="photo-wrap">
-        <img class="default-photo" alt="Memory 2" />
+    <section class="screen nebula-page" data-page="2">
+      <div class="starfield" aria-hidden="true"></div>
+      <div class="nebula-copy">
+        <p class="eyebrow" data-copy="nebulaEyebrow"></p>
+        <h2><span data-copy="nebulaTitle"></span><em>NGC 2080</em></h2>
+        <p class="nebula-fact" data-copy="nebulaFact"></p>
+        <blockquote data-copy="nebulaComfort"></blockquote>
+        <p class="nebula-note" data-copy="nebulaNote"></p>
+        <a class="source-link" href="https://science.nasa.gov/image-article/apod-2025-october-26-halloween-and-the-ghost-head-nebula/" target="_blank" rel="noreferrer" data-copy="nebulaSource"></a>
+        
       </div>
+      <figure class="nebula-frame">
+        <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia04/pia04226/PIA04226.jpg?fit=crop&amp;w=1400&amp;h=1200" alt="NASA 哈勃望远镜拍摄的幽灵头星云">
+        <figcaption><span>NASA · ESA · Hubble</span><b>OCT 26, 2025</b></figcaption>
+      </figure>
+      <span class="star-label">50 LIGHT-YEARS WIDE</span>
     </section>
 
-    <section class="screen">
-      <div class="title">Memory 3</div>
-      <div class="page-tag">Page 3 / 4</div>
-      <div class="photo-wrap">
-        <img class="default-photo" alt="Memory 3" />
-      </div>
+    <section class="screen memory-page" data-page="3">
+      <div class="grid-wash"></div>
+      <div class="memory-copy"><p class="eyebrow" data-copy="memory1Eyebrow"></p><h2><span data-copy="memory1Title"></span><em data-copy="memory1Em"></em></h2><p class="body-copy" data-copy="memory1Body"></p><label class="photo-button">＋ <span data-copy="photoChoose"></span><input type="file" accept="image/*" data-photo-input="memory-1"></label></div>
+      <figure class="photo-frame"><img src="photos/memory-1.jpg" alt="爸爸和家人的回忆照片" data-photo="memory-1"><div class="photo-placeholder"><span>MEMORY 01</span><b>☼</b><small data-copy="photoPlaceholder"></small></div><figcaption data-copy="memory1Caption"></figcaption></figure>
+      <span class="page-number">03</span>
     </section>
-
-    <section class="screen">
-      <div class="title">Memory 4</div>
-      <div class="page-tag">Page 4 / 4</div>
-      <div class="photo-wrap">
-        <img class="default-photo" alt="Memory 4" />
-      </div>
+    <section class="screen memory-page" data-page="4">
+      <div class="grid-wash"></div>
+      <div class="memory-copy"><p class="eyebrow" data-copy="memory2Eyebrow"></p><h2><span data-copy="memory2Title"></span><em data-copy="memory2Em"></em></h2><p class="body-copy" data-copy="memory2Body"></p><label class="photo-button">＋ <span data-copy="photoChoose"></span><input type="file" accept="image/*" data-photo-input="memory-2"></label></div>
+      <figure class="photo-frame"><img src="photos/memory-2.jpg" alt="爸爸和家人的回忆照片" data-photo="memory-2"><div class="photo-placeholder"><span>MEMORY 02</span><b>✿</b><small data-copy="photoPlaceholder"></small></div><figcaption data-copy="memory2Caption"></figcaption></figure>
+      <span class="page-number">04</span>
     </section>
-
-    <div class="nav">
-      <button class="secondary" id="prevBtn">上一页</button>
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <button id="nextBtn">下一页</button>
+    <section class="screen memory-page" data-page="5">
+      <div class="grid-wash"></div>
+      <div class="memory-copy"><p class="eyebrow" data-copy="memory3Eyebrow"></p><h2><span data-copy="memory3Title"></span><em data-copy="memory3Em"></em></h2><p class="body-copy" data-copy="memory3Body"></p><label class="photo-button">＋ <span data-copy="photoChoose"></span><input type="file" accept="image/*" data-photo-input="memory-3"></label></div>
+      <figure class="photo-frame"><img src="photos/memory-3.jpg" alt="爸爸和家人的回忆照片" data-photo="memory-3"><div class="photo-placeholder"><span>MEMORY 03</span><b>✦</b><small data-copy="photoPlaceholder"></small></div><figcaption data-copy="memory3Caption"></figcaption></figure>
+      <span class="page-number">05</span>
+    </section>
+    <section class="screen memory-page" data-page="6">
+      <div class="grid-wash"></div>
+      <div class="memory-copy"><p class="eyebrow" data-copy="memory4Eyebrow"></p><h2><span data-copy="memory4Title"></span><em data-copy="memory4Em"></em></h2><p class="body-copy" data-copy="memory4Body"></p><label class="photo-button">＋ <span data-copy="photoChoose"></span><input type="file" accept="image/*" data-photo-input="memory-4"></label></div>
+      <figure class="photo-frame"><img src="photos/memory-4.jpg" alt="爸爸和家人的回忆照片" data-photo="memory-4"><div class="photo-placeholder"><span>MEMORY 04</span><b>☀</b><small data-copy="photoPlaceholder"></small></div><figcaption data-copy="memory4Caption"></figcaption></figure>
+      <span class="page-number">06</span>
+    </section>
+    <section class="screen memory-page memory-gallery-page" data-page="7">
+      <div class="grid-wash"></div>
+      <div class="memory-copy"><p class="eyebrow" data-copy="memory5Eyebrow"></p><h2><span data-copy="memory5Title"></span><em data-copy="memory5Em"></em></h2><p class="body-copy" data-copy="memory5Body"></p><p class="gallery-hint" data-copy="galleryHint"></p></div>
+      <div class="memory-stack" aria-label="三张叠放的家庭照片">
+        <button class="stack-card stack-card-back" type="button" data-gallery-index="1" aria-label="查看照片二"><img src="photos/memory-6.jpg" alt="爸爸和家人在天安门广场的合影"><span>点我看下一张 ↗</span></button>
+        <button class="stack-card stack-card-middle" type="button" data-gallery-index="2" aria-label="查看照片三"><img src="photos/memory-7.jpg" alt="爷爷和孙女在户外的合影"><span>再点我一下 ↗</span></button>
+        <button class="stack-card stack-card-front" type="button" data-gallery-index="0" aria-label="查看照片一"><img src="photos/memory-5.jpg" alt="一家人的旧时合影"><span>点开看看 ✦</span></button>
+        <small class="stack-count">3 PHOTOS · ONE FAMILY</small>
+      </div>
+      <span class="page-number">07</span>
+    </section>
+    <div id="photo-viewer" class="photo-viewer" role="dialog" aria-modal="true" aria-label="照片逐张查看" hidden>
+      <button id="gallery-close" class="viewer-close" type="button" aria-label="关闭照片">×</button>
+      <button id="gallery-prev" class="viewer-arrow viewer-prev" type="button" aria-label="上一张照片">‹</button>
+      <figure class="viewer-photo"><img id="gallery-image" src="" alt=""><figcaption id="gallery-caption"></figcaption></figure>
+      <button id="gallery-next" class="viewer-arrow viewer-next" type="button" aria-label="下一张照片">›</button>
+      <span id="gallery-counter" class="viewer-counter"></span>
     </div>
-  </div>
+    <section class="screen interaction-page" data-page="8">
+      <div class="grid-wash"></div>
+      <div class="memory-copy">
+        <p class="eyebrow" data-copy="choiceEyebrow"></p>
+        <h2><span data-copy="choiceTitle"></span><em data-copy="choiceEm"></em></h2>
+        <p class="body-copy" data-copy="choiceBody"></p>
+        <p id="choice-answer" class="choice-answer" aria-live="polite" data-copy="choicePrompt"></p>
+      </div>
+      <div class="choice-board">
+        <button data-choice="water" type="button"><span>01</span><b>♧</b><strong data-copy="waterLabel"></strong><small>3 ×</small></button>
+        <button data-choice="walk" type="button"><span>02</span><b>☀</b><strong data-copy="walkLabel"></strong><small>3 ×</small></button>
+        <p id="both-actions-status" class="both-actions-status" data-copy="bothActionsPrompt"></p>
+      </div>
+      <div id="action-modal" class="action-modal" hidden>
+        <div class="action-modal-card">
+          <button id="close-action" class="action-close" type="button" aria-label="返回选择">×</button>
+          <section id="water-scene" class="action-scene water-scene" hidden>
+            <p class="eyebrow" data-copy="waterEyebrow"></p>
+            <h3 data-copy="waterTitle"></h3>
+            <p id="water-instruction" data-copy="waterInstruction"></p>
+            <div class="water-glass" id="water-glass"><span class="glass-neck"></span><span class="water-fill"></span><span class="glass-highlight"></span><b>温水</b></div>
+            <p id="water-count" class="action-count" data-copy="waterCount"></p>
+            <button id="water-sip" class="button button-sun" type="button" data-copy="waterSip"></button>
+            <button id="water-return" class="action-return" type="button" data-copy="actionReturn" hidden></button>
+          </section>
+          <section id="walk-scene" class="action-scene walk-scene" hidden>
+            <p class="eyebrow" data-copy="walkEyebrow"></p>
+            <h3 data-copy="walkTitle"></h3>
+            <p id="walk-instruction" data-copy="walkInstruction"></p>
+            <div id="walk-landscape" class="walk-landscape">
+              <div class="walk-sky"><span>☼</span><i>终点</i></div>
+              <div class="tree-row tree-left"><i></i><i></i><i></i></div>
+              <div class="tree-row tree-right"><i></i><i></i><i></i></div>
+              <div class="walk-path"><div class="path-stripes"></div><div id="walker" class="walker"><i class="walker-head"></i><i class="walker-body"></i><i class="walker-arm"></i><i class="walker-leg leg-a"></i><i class="walker-leg leg-b"></i></div></div>
+            </div>
+            <p id="walk-count" class="action-count" data-copy="walkCount"></p>
+            <button id="walk-step" class="button button-sun" type="button" data-copy="walkStepButton"></button>
+            <button id="walk-return" class="action-return" type="button" data-copy="actionReturn" hidden></button>
+          </section>
+        </div>
+      </div>
+    </section>
 
-  <script>
-    const defaultImages = [
-      'images/1.jpg',
-      'images/2.jpg',
-      'images/3.jpg',
-      'images/4.jpg'
-    ];
+    <section class="screen sleep-page" data-page="9">
+      <div class="grid-wash"></div>
+      <div class="sleep-card">
+        <p class="eyebrow" data-copy="sleepEyebrow"></p>
+        <div class="sleep-moon">☾</div>
+        <h2 data-copy="sleepTitle"></h2>
+        <p class="body-copy" data-copy="sleepBody"></p>
+        <button id="sleep-open" class="button button-sun" type="button" data-copy="sleepOpen"></button>
+        <div id="sleep-choices" class="sleep-choices" hidden>
+          <p data-copy="sleepQuestion"></p>
+          <button id="sleep-yes" class="button button-sun" type="button" data-copy="sleepYes"></button>
+          <button id="sleep-no" class="button button-no" type="button" data-copy="sleepNo"></button>
+        </div>
+        <div id="sleep-received" class="sleep-received" hidden>
+          <span data-copy="sleepReceived"></span>
+          <strong data-copy="sleepBigLine"></strong>
+        </div>
+      </div>
+    </section>
+    <section class="screen comfort-page" data-page="10">
+      <div class="grid-wash"></div>
+      <div class="memory-copy"><p class="eyebrow" data-copy="comfortEyebrow"></p><h2><span data-copy="comfortTitle"></span><em data-copy="comfortEm"></em></h2><p class="body-copy" data-copy="comfortBody"></p><button id="open-note" class="button button-sun" type="button" data-copy="noteButton"></button><p id="note-reveal" class="note-reveal" aria-live="polite"></p></div>
+      <div class="sun-window"><span>☼</span><i>慢一点<br>也没关系</i><b>✧</b></div>
+    </section>
 
-    const images = document.querySelectorAll('.default-photo');
-    images.forEach((img, index) => {
-      img.src = defaultImages[index];
-      img.onerror = () => {
-        img.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-          <svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-            <rect width="800" height="1000" fill="#f5e3c9"/>
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="36" fill="#8a5b3a" font-family="Microsoft YaHei, Arial">Image ${index + 1}</text>
-          </svg>
-        `);
-      };
-    });
+    <section class="screen letter-page" data-page="11">
+      <div class="grid-wash"></div>
+      <article class="letter-paper">
+        <p class="eyebrow" data-copy="letterEyebrow"></p><h2 data-copy="letterTitle"></h2><p data-copy="letterBody"></p><strong data-copy="letterSign"></strong>
+        
+      </article>
+      <div class="letter-illustration"><span>✿</span><i>给爸爸<br>的一封信</i><b>1970 — ∞</b></div>
+    </section>
 
-    const screens = [...document.querySelectorAll('.screen')];
-    const dots = [...document.querySelectorAll('.dot')];
-    let index = 0;
+    <section class="screen cake-page" data-page="12">
+      <canvas id="fireworks" aria-hidden="true"></canvas><div class="cake-stars" aria-hidden="true"></div>
+      <div class="cake-copy"><p class="eyebrow" data-copy="cakeEyebrow"></p><h2><span data-copy="cakeTitle"></span><em data-copy="cakeEm"></em></h2><p class="body-copy" data-copy="cakeBody"></p><p class="candle-instruction" data-copy="candleInstruction"></p><p class="candle-count" id="candle-count" data-copy="candleCount"></p><button class="song-button" id="birthday-song" type="button"><span>♫</span><b data-copy="songButton"></b></button></div>
+      <div class="cake-scene">
+        <div class="cake-art" id="cake-art">
+          <span class="cake-spark spark-left">✧</span><span class="cake-spark spark-right">✦</span>
+          <div class="tier tier-top"><span class="icing"></span><div class="candles">
+            <button class="candle" data-candle="1" aria-label="吹灭第一根蜡烛" type="button"><i></i><b></b></button>
+            <button class="candle" data-candle="2" aria-label="吹灭第二根蜡烛" type="button"><i></i><b></b></button>
+            <button class="candle" data-candle="3" aria-label="吹灭第三根蜡烛" type="button"><i></i><b></b></button>
+          </div></div>
+          <div class="tier tier-middle"><span class="icing"></span><i>✿</i><i>✦</i><i>✿</i></div>
+          <div class="tier tier-bottom"><span class="icing"></span><i>✦</i><i>✿</i><i>✦</i><i>✿</i></div>
+          <div class="cake-plate"></div>
+        </div>
+        <article id="birthday-card" class="birthday-card" hidden>
+          <div class="card-illustration"><img src="photos/family-lineart.jpg" alt="爸爸与家人的简笔画"></div>
+          <div class="card-copy"><p class="eyebrow" data-copy="cardEyebrow"></p><h3 data-copy="cardTitle"></h3><p data-copy="cardMessage"></p><strong data-copy="cardSignature"></strong></div>
+        </article>
+      </div>
+      <div id="confetti" class="confetti" aria-hidden="true"></div>
+      <p class="final-credit" data-copy="finalCredit"></p>
+    </section>
 
-    function render() {
-      screens.forEach((screen, i) => {
-        screen.classList.toggle('active', i === index);
-      });
-
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-
-      document.querySelector('.page-tag').textContent = `Page ${index + 1} / ${screens.length}`;
-    }
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      index = (index + 1) % screens.length;
-      render();
-    });
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      index = (index - 1 + screens.length) % screens.length;
-      render();
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight' || event.key === 'PageDown') {
-        index = (index + 1) % screens.length;
-        render();
-      }
-      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
-        index = (index - 1 + screens.length) % screens.length;
-        render();
-      }
-    });
-
-    render();
-  </script>
+    <nav class="slide-nav" aria-label="翻页">
+      <button id="next-page" type="button" aria-label="下一页"><span data-copy="next"></span> →</button>
+    </nav>
+  </main>
+  <script src="edit-text.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
+
